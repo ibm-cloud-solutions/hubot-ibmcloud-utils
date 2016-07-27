@@ -1,0 +1,38 @@
+{
+  "name": "hubot-ibmcloud-utils",
+  "version": "0.0.8",
+  "description": "Common consistency utilities used across the IBM cloud family of hubot scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "coverage": "istanbul cover -x '**/coverage/**' -x '**/tools/**' --include-all-sources --report lcov --report cobertura --report text --dir ./gh-pages/coverage _mocha -- test",
+    "lint": "eslint src/*.js index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/ibm-cloud-solutions/hubot-ibmcloud-utils"
+  },
+  "author": "ibm-cloud-solutions",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "i18n": "^0.8.3"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "conventional-recommended-bump": "^0.2.1",
+    "commander": "^2.9.0",
+    "eslint": "^2.13.1",
+    "eslint-config-strongloop": "^2.0.1",
+    "github": "^2.0.1",
+    "istanbul": "0.4.0",
+    "istanbul-cobertura-badger": "1.2.1",
+    "mocha": "^2.4.5",
+    "publish-please": "^2.1.4",
+    "semver": "^5.1.0",
+    "shelljs": "^0.7.0"
+  },
+  "files": [
+    "src",
+    "index.js"
+  ]
+}
