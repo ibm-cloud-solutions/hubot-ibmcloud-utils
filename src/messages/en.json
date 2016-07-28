@@ -1,4 +1,4 @@
 {
 	"conversation.timed.out": "Our conversation timed out.  You can try again later.",
-	"conversation.try.again.or.exit": "That is not one of the choices. Try again, or type 'exit'."
+	"conversation.try.again.or.exit": "That is not one of the choices. Try again, or type *exit*."
 }
