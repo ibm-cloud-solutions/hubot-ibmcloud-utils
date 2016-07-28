@@ -17,8 +17,9 @@
 // It will read from a peer messages.json file.  Later, these
 // messages can be referenced throughout the module.
 // --------------------------------------------------------------
-const i18n = require('i18n');
-i18n.configure({
+var i18n = new (require('i18n-2'))({
+	locales: ['en'],
+	extension: '.json',
 	// Add more languages to the list of locales when the files are created.
 	directory: __dirname + '/messages',
 	defaultLocale: 'en',
