@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/ibm-cloud-solutions/hubot-ibmcloud-utils.svg?branch=master)](https://travis-ci.org/ibm-cloud-solutions/hubot-ibmcloud-utils)
+[![Dependency Status](https://dependencyci.com/github/ibm-cloud-solutions/hubot-ibmcloud-utils/badge)](https://dependencyci.com/github/ibm-cloud-solutions/hubot-ibmcloud-utils)
+[![npm](https://img.shields.io/npm/v/hubot-ibmcloud-utils.svg?maxAge=2592000)](https://www.npmjs.com/package/hubot-ibmcloud-utils)
+
 # hubot-ibmcloud-utils
 
 Utility functions for IBM Cloud Hubot scripts.
@@ -10,10 +14,10 @@ const palette = require('hubot-ibmcloud-utils').palette;
 const utils = require('hubot-ibmcloud-utils').utils;
 ```
 
-## License <a id="license"></a>
+## License
 
-See [LICENSE.txt](./LICENSE.txt) for license information.
+See [LICENSE.txt](https://github.com/ibm-cloud-solutions/hubot-ibmcloud-utils/blob/master/LICENSE.txt) for license information.
 
-## Contribute <a id="contribute"></a>
+## Contribute
 
-Please check out our [Contribution Guidelines](./CONTRIBUTING.md) for detailed information on how you can lend a hand.
+Please check out our [Contribution Guidelines](https://github.com/ibm-cloud-solutions/hubot-ibmcloud-utils/blob/master/CONTRIBUTING.md) for detailed information on how you can lend a hand.

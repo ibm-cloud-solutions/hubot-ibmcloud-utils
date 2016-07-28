@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test",
-    "coverage": "istanbul cover -x '**/coverage/**' -x '**/tools/**' --include-all-sources --report lcov --report cobertura --report text --dir ./gh-pages/coverage _mocha -- test",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "lint": "eslint src/*.js index.js"
   },
   "repository": {
@@ -15,21 +15,15 @@
   "author": "ibm-cloud-solutions",
   "license": "Apache-2.0",
   "dependencies": {
-	 "i18n-2": "^0.6.3"
+    "i18n-2": "^0.6.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "conventional-recommended-bump": "^0.2.1",
-    "commander": "^2.9.0",
+    "coveralls": "^2.11.12",
     "eslint": "^2.13.1",
     "eslint-config-strongloop": "^2.0.1",
-    "github": "^2.0.1",
     "istanbul": "0.4.0",
-    "istanbul-cobertura-badger": "1.2.1",
-    "mocha": "^2.4.5",
-    "publish-please": "^2.1.4",
-    "semver": "^5.1.0",
-    "shelljs": "^0.7.0"
+    "mocha": "^2.4.5"
   },
   "files": [
     "src",
