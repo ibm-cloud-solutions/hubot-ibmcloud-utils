@@ -134,29 +134,39 @@ describe('Test utility functions', function() {
 			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex);
 		});
 
-		it('test confirmed response Y', function() {
+		it('test confirmed response `yes`', function(done) {
 			var res = {
-				reply: function(msg) {}
+				reply: function(msg) {
+					return 'yes';
+				}
 			};
+
 			var switchBoard = {
 				startDialog: function(res) {
 					var dialog = {
 						addChoice: function(regex, func) {
-							message = 'hubot Y';
+							let message = 'hubot yes';
 							func(message);
-						}
+						},
+						resetChoices: function(){},
+						emit: function(){}
 					};
-					return dialog; }
+					return dialog;
+				}
 			};
-			var prompt = {};
+			var prompt = 'Test question (Yes or No)';
 			var negativeResponse = 'no';
-			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse);
+			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse).then(() => {
+				done();
+			});
 		});
 
 
-		it('test confirmed response N', function() {
+		it('test confirmed response `no`', function(done) {
 			var res = {
-				reply: function(msg) {}
+				reply: function(msg) {
+					return 'no';
+				}
 			};
 			var switchBoard = {
 				startDialog: function(res) {
@@ -164,13 +174,19 @@ describe('Test utility functions', function() {
 						addChoice: function(regex, func) {
 							message = 'hubot no';
 							func(message);
-						}
+						},
+						resetChoices: function(){},
+						emit: function(){}
 					};
-					return dialog; }
+					return dialog;
+				}
 			};
-			var prompt = {};
+			var prompt = 'Test question (Yes or No)';
 			var negativeResponse = 'no';
-			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse);
+			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse)
+			.then(() => {}, () => {
+				done();
+			});
 		});
 
 	});
