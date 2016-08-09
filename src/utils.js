@@ -144,11 +144,17 @@ module.exports = {
 				};
 				// Handle a confirmation.
 				dialog.addChoice(that.CONFIRM, (msg) => {
+					// force dialog removal
+					dialog.resetChoices();
+					dialog.emit('timeout');
 					resolve();
 				});
 				// Handle a rejection.
 				dialog.addChoice(that.DENY, (msg) => {
 					res.reply(negativeResponse);
+					// force dialog removal
+					dialog.resetChoices();
+					dialog.emit('timeout');
 					reject();
 				});
 				// Handle an unexpected response.
