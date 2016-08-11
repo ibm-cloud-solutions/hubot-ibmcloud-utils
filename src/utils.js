@@ -116,6 +116,9 @@ module.exports = {
 
 					// Allow the user to leave the dialog.
 					if (choice === 'exit') {
+						// force dialog removal
+						dialog.resetChoices();
+						dialog.emit('timeout');
 						reject();
 					}
 					else {
