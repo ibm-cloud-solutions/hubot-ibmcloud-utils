@@ -9,7 +9,6 @@
 const expect = require('chai').expect;
 const palette = require('../src/palette');
 const utils = require('../src/utils');
-const index = require('../index');
 
 // Passing arrow functions to mocha is discouraged: https://mochajs.org/#arrow-functions
 // return promises from mocha tests rather than calling done() - http://tobyho.com/2015/12/16/mocha-with-promises/
@@ -45,27 +44,27 @@ describe('Test utility functions', function() {
 		});
 
 		it('test byte conversion for 0 bytes', function() {
-			let result = utils.bytesToSize(0)
+			let result = utils.bytesToSize(0);
 			expect(result).to.equal('0B');
 		});
 
 		it('test byte conversion for 1 bytes', function() {
-			let result = utils.bytesToSize(1, 1)
+			let result = utils.bytesToSize(1, 1);
 			expect(result).to.equal('1B');
 		});
 
 		it('test format memory for 0 MB', function() {
-			let result = utils.formatMemory(0, 1)
+			let result = utils.formatMemory(0, 1);
 			expect(result).to.equal('0MB');
 		});
 
 		it('test format memory for 1 MB', function() {
-			let result = utils.formatMemory(1, 1)
+			let result = utils.formatMemory(1, 1);
 			expect(result).to.equal('1.0MB');
 		});
 
 
-		it('test expected response', function() {
+		it('test expected response', function(done) {
 			var res = {
 				reply: function(msg) {}
 			};
@@ -76,19 +75,24 @@ describe('Test utility functions', function() {
 				startDialog: function(res) {
 					var dialog = {
 						addChoice: function(regex, func) {
-							message = 'hubot Y';
+							let message = 'hubot Y';
 							func(message);
-						}
+						},
+						resetChoices: function(){},
+						emit: function(){}
 					};
-					return dialog; }
+					return dialog;
+				}
 			};
 			var prompt = {};
 			var regex = /Y*/i;
 
-			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex);
+			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
+				done();
+			});
 		});
 
-		it('test expected unexpected response', function() {
+		it('test expected unexpected response', function(done) {
 			var res = {
 				reply: function(msg) {}
 			};
@@ -99,19 +103,24 @@ describe('Test utility functions', function() {
 				startDialog: function(res) {
 					var dialog = {
 						addChoice: function(regex, func) {
-							message = 'hubot blah';
+							let message = 'hubot blah';
 							func(message);
-						}
+						},
+						resetChoices: function(){},
+						emit: function(){}
 					};
-					return dialog; }
+					return dialog;
+				}
 			};
 			var prompt = {};
 			var regex = /Y*/i;
 
-			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex);
+			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
+				done();
+			});
 		});
 
-		it('test expected exit response', function() {
+		it('test expected exit response', function(done) {
 			var res = {
 				reply: function(msg) {}
 			};
@@ -122,16 +131,21 @@ describe('Test utility functions', function() {
 				startDialog: function(res) {
 					var dialog = {
 						addChoice: function(regex, func) {
-							message = 'exit';
+							let message = 'exit';
 							func(message);
-						}
+						},
+						resetChoices: function(){},
+						emit: function(){}
 					};
-					return dialog; }
+					return dialog;
+				}
 			};
 			var prompt = {};
 			var regex = /Y*/i;
 
-			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex);
+			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
+				done();
+			});
 		});
 
 		it('test confirmed response `yes`', function(done) {
