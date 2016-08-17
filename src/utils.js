@@ -171,6 +171,50 @@ module.exports = {
 	},
 
 	/*
+	 * This will generate a regular expression that will only match input from 1 - maxNum
+	 * Currently only supports lists up to 99
+	 */
+	generateRegExpForNumberedList: function(maxNum) {
+		let regex = '';
+		let singleDigit = '[1-9]';
+		let doubleDigitFullRange = '';
+		let doubleDigitPartialRange = '';
+
+		// check < 1 or > 99
+		if (maxNum < 1 || maxNum > 99) {
+			console.log('out of range, we currently only support lists from 1 - 99');
+			return;
+		}
+
+		// check for single digit maxNum
+		if (maxNum < 10) {
+			regex = `^([1-${maxNum}])$`;
+			return regex;
+		}
+
+		// convert to string
+		let maxNumString = String(maxNum);
+		// get first digit of maxNum
+		let firstDigit = Number(maxNumString.charAt(0));
+		// get second digit of maxNum
+		let secondDigit = Number(maxNumString.charAt(1));
+
+
+		if (firstDigit === 1) {
+			// construct double digit partial range
+			doubleDigitPartialRange = `1[0-${secondDigit}]`;
+			regex = `^(${singleDigit}|${doubleDigitPartialRange}?)\$`;
+		} else {
+			// construct double digit full range and partial range
+			doubleDigitFullRange = `[1-${firstDigit - 1}][0-9]`;
+			doubleDigitPartialRange = `${firstDigit}[0-${secondDigit}]`;
+			regex = `^(${singleDigit}|${doubleDigitFullRange}?|${doubleDigitPartialRange}?)\$`;
+		}
+
+		return regex;
+	},
+
+	/*
 	 * true if we are certain the robot is running in slack, else false.
 	 */
 	isSlack: function(robot) {

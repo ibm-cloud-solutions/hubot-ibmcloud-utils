@@ -203,6 +203,25 @@ describe('Test utility functions', function() {
 			});
 		});
 
+		it('test generated regex for numbered list of 7', function() {
+			let result = utils.generateRegExpForNumberedList(7);
+			expect(result).to.equal('^([1-7])$');
+		});
+
+		it('test generated regex for numbered list of 15', function() {
+			let result = utils.generateRegExpForNumberedList(15);
+			expect(result).to.equal('^([1-9]|1[0-5]?)$');
+		});
+
+		it('test generated regex for numbered list of 45', function() {
+			let result = utils.generateRegExpForNumberedList(45);
+			expect(result).to.equal('^([1-9]|[1-3][0-9]?|4[0-5]?)$');
+		});
+
+		it('test generated regex for numbered list of 88', function() {
+			let result = utils.generateRegExpForNumberedList(88);
+			expect(result).to.equal('^([1-9]|[1-7][0-9]?|8[0-8]?)$');
+		});
 	});
 
 });
