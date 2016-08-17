@@ -204,7 +204,8 @@ module.exports = {
 			// construct double digit partial range
 			doubleDigitPartialRange = `1[0-${secondDigit}]`;
 			regex = `^(${singleDigit}|${doubleDigitPartialRange}?)\$`;
-		} else {
+		}
+		else {
 			// construct double digit full range and partial range
 			doubleDigitFullRange = `[1-${firstDigit - 1}][0-9]`;
 			doubleDigitPartialRange = `${firstDigit}[0-${secondDigit}]`;
