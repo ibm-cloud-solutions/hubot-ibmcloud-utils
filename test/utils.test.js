@@ -222,6 +222,11 @@ describe('Test utility functions', function() {
 			let result = utils.generateRegExpForNumberedList(88);
 			expect(result).to.equal('^([1-9]|[1-7][0-9]?|8[0-8]?)$');
 		});
+
+		it('test generated regex returns null, if outside of allowed range', function() {
+			let result = utils.generateRegExpForNumberedList(100);
+			expect(result).to.equal(undefined);
+		});
 	});
 
 });

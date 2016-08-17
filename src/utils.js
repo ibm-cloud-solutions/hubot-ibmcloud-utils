@@ -182,7 +182,6 @@ module.exports = {
 
 		// check < 1 or > 99
 		if (maxNum < 1 || maxNum > 99) {
-			console.log('out of range, we currently only support lists from 1 - 99');
 			return;
 		}
 
