@@ -182,7 +182,7 @@ module.exports = {
 
 		// check < 1 or > 99
 		if (maxNum < 1 || maxNum > 99) {
-			return;
+			return new Error('Currently only supports lists between 1 and 99');
 		}
 
 		// check for single digit maxNum

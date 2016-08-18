@@ -223,9 +223,14 @@ describe('Test utility functions', function() {
 			expect(result).to.equal('^([1-9]|[1-7][0-9]?|8[0-8]?)$');
 		});
 
-		it('test generated regex returns null, if outside of allowed range', function() {
+		it('test generated regex returns an Error, if outside upper bound of allowed range', function() {
 			let result = utils.generateRegExpForNumberedList(100);
-			expect(result).to.equal(undefined);
+			expect(result).to.be.an.instanceOf(Error);
+		});
+
+		it('test generated regex returns an Error, if outside lower bound of allowed range', function() {
+			let result = utils.generateRegExpForNumberedList(-1);
+			expect(result).to.be.an.instanceOf(Error);
 		});
 	});
 
