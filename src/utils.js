@@ -175,10 +175,11 @@ module.exports = {
 	 *
 	 * returns RegExp object on success, Error on failure
 	 *
-	 * Note: Currently only supports lists up to 99
+	 * Note: Currently only supports lists up to 99, and bots that don't have numbers in their name
 	 */
 	generateRegExpForNumberedList: function(maxNum) {
 		let regex = '';
+		let addressBotPrefix = '\\D*';
 		let singleDigit = '[1-9]';
 		let doubleDigitFullRange = '';
 		let doubleDigitPartialRange = '';
@@ -190,7 +191,7 @@ module.exports = {
 
 		// check for single digit maxNum
 		if (maxNum < 10) {
-			regex = `^([1-${maxNum}])$`;
+			regex = `^${addressBotPrefix}([1-${maxNum}])$`;
 			return new RegExp(regex);
 		}
 
@@ -205,13 +206,13 @@ module.exports = {
 		if (firstDigit === 1) {
 			// construct double digit partial range
 			doubleDigitPartialRange = `1[0-${secondDigit}]`;
-			regex = `^(${singleDigit}|${doubleDigitPartialRange}?)\$`;
+			regex = `^${addressBotPrefix}(${singleDigit}|${doubleDigitPartialRange}?)\$`;
 		}
 		else {
 			// construct double digit full range and partial range
 			doubleDigitFullRange = `[1-${firstDigit - 1}][0-9]`;
 			doubleDigitPartialRange = `${firstDigit}[0-${secondDigit}]`;
-			regex = `^(${singleDigit}|${doubleDigitFullRange}?|${doubleDigitPartialRange}?)\$`;
+			regex = `^${addressBotPrefix}(${singleDigit}|${doubleDigitFullRange}?|${doubleDigitPartialRange}?)\$`;
 		}
 
 		return new RegExp(regex);

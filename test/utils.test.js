@@ -208,22 +208,30 @@ describe('Test utility functions', function() {
 
 		it('test generated regex for numbered list of 7', function() {
 			let result = utils.generateRegExpForNumberedList(7);
-			expect(result.toString()).to.equal('/^([1-7])$/');
+			expect('@hubot 5').to.match(result);
+			expect('5').to.match(result);
+			expect('8').to.not.match(result);
 		});
 
 		it('test generated regex for numbered list of 15', function() {
 			let result = utils.generateRegExpForNumberedList(15);
-			expect(result.toString()).to.equal('/^([1-9]|1[0-5]?)$/');
+			expect('@hubot 15').to.match(result);
+			expect('5').to.match(result);
+			expect('16').to.not.match(result);
 		});
 
 		it('test generated regex for numbered list of 45', function() {
 			let result = utils.generateRegExpForNumberedList(45);
-			expect(result.toString()).to.equal('/^([1-9]|[1-3][0-9]?|4[0-5]?)$/');
+			expect('@hubot 45').to.match(result);
+			expect('5').to.match(result);
+			expect('46').to.not.match(result);
 		});
 
 		it('test generated regex for numbered list of 88', function() {
 			let result = utils.generateRegExpForNumberedList(88);
-			expect(result.toString()).to.equal('/^([1-9]|[1-7][0-9]?|8[0-8]?)$/');
+			expect('@hubot 88').to.match(result);
+			expect('5').to.match(result);
+			expect('89').to.not.match(result);
 		});
 
 		it('test generated regex returns an Error, if outside upper bound of allowed range', function() {
