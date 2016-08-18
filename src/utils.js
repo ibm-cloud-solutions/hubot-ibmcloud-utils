@@ -172,7 +172,10 @@ module.exports = {
 
 	/*
 	 * This will generate a regular expression that will only match input from 1 - maxNum
-	 * Currently only supports lists up to 99
+	 *
+	 * returns RegExp object on success, Error on failure
+	 *
+	 * Note: Currently only supports lists up to 99
 	 */
 	generateRegExpForNumberedList: function(maxNum) {
 		let regex = '';
@@ -188,7 +191,7 @@ module.exports = {
 		// check for single digit maxNum
 		if (maxNum < 10) {
 			regex = `^([1-${maxNum}])$`;
-			return regex;
+			return new RegExp(regex);
 		}
 
 		// convert to string
@@ -211,7 +214,7 @@ module.exports = {
 			regex = `^(${singleDigit}|${doubleDigitFullRange}?|${doubleDigitPartialRange}?)\$`;
 		}
 
-		return regex;
+		return new RegExp(regex);
 	},
 
 	/*
