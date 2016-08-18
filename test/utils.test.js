@@ -22,6 +22,9 @@ describe('Test utility functions', function() {
 			expect(palette.running).to.equal('#008571');
 			expect(palette.started).to.equal('#008571');
 			expect(palette.stopped).to.equal('#ef4e38');
+			expect(palette.available).to.equal('#008571');
+			expect(palette.intermediate).to.equal('#DAA038');
+			expect(palette.training).to.equal('#DAA038');
 			expect(palette.random).to.be.a.string;
 		});
 	});
