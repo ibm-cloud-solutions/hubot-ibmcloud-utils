@@ -1,6 +1,6 @@
 {
   "name": "hubot-ibmcloud-utils",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Common consistency utilities used across the IBM cloud family of hubot scripts",
   "main": "index.js",
   "scripts": {
