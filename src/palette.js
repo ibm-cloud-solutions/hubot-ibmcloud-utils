@@ -12,13 +12,16 @@
 const COLORS = {
 	normal: '#555',
 	positive: '#008571',
-	negative: '#ef4e38'
+	negative: '#ef4e38',
+	intermediate: '#DAA038'
 };
 
 // Aliases
 COLORS.running = COLORS.positive;
 COLORS.started = COLORS.positive;
+COLORS.available = COLORS.positive;
 COLORS.stopped = COLORS.negative;
+COLORS.training = COLORS.intermediate;
 
 Object.defineProperty(COLORS, 'random', {
 	get: () => {
