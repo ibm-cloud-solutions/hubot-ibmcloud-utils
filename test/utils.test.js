@@ -243,6 +243,51 @@ describe('Test utility functions', function() {
 			let result = utils.generateRegExpForNumberedList(-1);
 			expect(result).to.be.an.instanceOf(Error);
 		});
+
+		it('test removing bot name from string', function() {
+			let testString = '@hubot How are you doing today?';
+			let result = utils.stripBotName('hubot', testString);
+			expect(result).to.equal('How are you doing today?');
+		});
+
+		it('test removing multiple bot names from string', function() {
+			let testString = '@hubot How are you doing today? hubot';
+			let result = utils.stripBotName('hubot', testString);
+			expect(result).to.equal('How are you doing today?');
+		});
+
+		it('test removing multiple bot names with typical variance seen in slack from string', function() {
+			let testString = '@hubot @hubot: hubot HUBOT: How are you doing today?';
+			let result = utils.stripBotName('hubot', testString);
+			expect(result).to.equal('How are you doing today?');
+		});
+
+		it('test checking for bot being addressed in slack message', function() {
+			let robot = {
+				adapterName: 'slack'
+			};
+			let testString = '@hubot How are you doing today?';
+			let result = utils.checkBotAddressedInMessage('hubot', testString, robot);
+			expect(result).to.equal(true);
+		});
+
+		it('test checking for bot being addressed incorrectly in slack message', function() {
+			let robot = {
+				adapterName: 'slack'
+			};
+			let testString = '@huboty How are you doing today?';
+			let result = utils.checkBotAddressedInMessage('hubot', testString, robot);
+			expect(result).to.not.equal(true);
+		});
+
+		it('test checking for bot name in console message', function() {
+			let robot = {
+				adapterName: ''
+			};
+			let testString = 'hubot How are you doing today?';
+			let result = utils.checkBotAddressedInMessage('hubot', testString, robot);
+			expect(result).to.equal(true);
+		});
 	});
 
 });
