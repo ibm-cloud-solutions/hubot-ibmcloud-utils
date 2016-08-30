@@ -17,7 +17,7 @@
 // It will read from a peer messages.json file.  Later, these
 // messages can be referenced throughout the module.
 // --------------------------------------------------------------
-var i18n = new (require('i18n-2'))({
+const i18n = new (require('i18n-2'))({
 	locales: ['en'],
 	extension: '.json',
 	// Add more languages to the list of locales when the files are created.
@@ -47,9 +47,9 @@ module.exports = {
 		if (numChars == null) {
 			numChars = 3;
 		}
-		var sizes = ['B', 'K', 'M', 'G', 'T'];
+		const sizes = ['B', 'K', 'M', 'G', 'T'];
 		if (bytes === 0) return '0B';
-		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
+		const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
 		return (bytes / Math.pow(1024, i)).toPrecision(numChars) + sizes[i];
 	},
 
@@ -102,8 +102,8 @@ module.exports = {
 
 				// Handle an unexpected response.
 				dialog.addChoice(/.*/i, (msg) => {
-					var choice = null;
-					var input = msg.match[0].split(' ');
+					let choice = null;
+					const input = msg.match[0].split(' ');
 					// Check if the user addressed the bot.
 					if (msg.match[0] && msg.match[0].indexOf(robot.name) !== -1) {
 						// The robot was addressed.  Get the next token.
