@@ -68,15 +68,15 @@ describe('Test utility functions', function() {
 
 
 		it('test expected response', function(done) {
-			var res = {
+			let res = {
 				reply: function(msg) {}
 			};
-			var robot = {
+			let robot = {
 				name: 'hubot'
 			};
-			var switchBoard = {
+			let switchBoard = {
 				startDialog: function(res) {
-					var dialog = {
+					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'hubot Y';
 							func(message);
@@ -87,8 +87,8 @@ describe('Test utility functions', function() {
 					return dialog;
 				}
 			};
-			var prompt = {};
-			var regex = /Y*/i;
+			let prompt = {};
+			let regex = /Y*/i;
 
 			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
 				done();
@@ -96,15 +96,15 @@ describe('Test utility functions', function() {
 		});
 
 		it('test expected unexpected response', function(done) {
-			var res = {
+			let res = {
 				reply: function(msg) {}
 			};
-			var robot = {
+			let robot = {
 				name: 'hubot'
 			};
-			var switchBoard = {
+			let switchBoard = {
 				startDialog: function(res) {
-					var dialog = {
+					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'hubot blah';
 							func(message);
@@ -115,8 +115,8 @@ describe('Test utility functions', function() {
 					return dialog;
 				}
 			};
-			var prompt = {};
-			var regex = /Y*/i;
+			let prompt = {};
+			let regex = /Y*/i;
 
 			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
 				done();
@@ -124,15 +124,15 @@ describe('Test utility functions', function() {
 		});
 
 		it('test expected exit response', function(done) {
-			var res = {
+			let res = {
 				reply: function(msg) {}
 			};
-			var robot = {
+			let robot = {
 				name: 'hubot'
 			};
-			var switchBoard = {
+			let switchBoard = {
 				startDialog: function(res) {
-					var dialog = {
+					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'exit';
 							func(message);
@@ -143,8 +143,8 @@ describe('Test utility functions', function() {
 					return dialog;
 				}
 			};
-			var prompt = {};
-			var regex = /Y*/i;
+			let prompt = {};
+			let regex = /Y*/i;
 
 			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
 				done();
@@ -152,15 +152,15 @@ describe('Test utility functions', function() {
 		});
 
 		it('test confirmed response `yes`', function(done) {
-			var res = {
+			let res = {
 				reply: function(msg) {
 					return 'yes';
 				}
 			};
 
-			var switchBoard = {
+			let switchBoard = {
 				startDialog: function(res) {
-					var dialog = {
+					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'hubot yes';
 							func(message);
@@ -171,8 +171,8 @@ describe('Test utility functions', function() {
 					return dialog;
 				}
 			};
-			var prompt = 'Test question (Yes or No)';
-			var negativeResponse = 'no';
+			let prompt = 'Test question (Yes or No)';
+			let negativeResponse = 'no';
 			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse).then(() => {
 				done();
 			});
@@ -180,16 +180,16 @@ describe('Test utility functions', function() {
 
 
 		it('test confirmed response `no`', function(done) {
-			var res = {
+			let res = {
 				reply: function(msg) {
 					return 'no';
 				}
 			};
-			var switchBoard = {
+			let switchBoard = {
 				startDialog: function(res) {
-					var dialog = {
+					let dialog = {
 						addChoice: function(regex, func) {
-							message = 'hubot no';
+							let message = 'hubot no';
 							func(message);
 						},
 						resetChoices: function(){},
@@ -198,10 +198,9 @@ describe('Test utility functions', function() {
 					return dialog;
 				}
 			};
-			var prompt = 'Test question (Yes or No)';
-			var negativeResponse = 'no';
-			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse)
-			.then(() => {}, () => {
+			let prompt = 'Test question (Yes or No)';
+			let negativeResponse = 'no';
+			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse).then(() => {
 				done();
 			});
 		});
