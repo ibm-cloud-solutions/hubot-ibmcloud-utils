@@ -12,12 +12,14 @@
   */
 'use strict';
 
+const esrever = require('esrever');
+
 // --------------------------------------------------------------
 // i18n (internationalization)
 // It will read from a peer messages.json file.  Later, these
 // messages can be referenced throughout the module.
 // --------------------------------------------------------------
-var i18n = new (require('i18n-2'))({
+const i18n = new (require('i18n-2'))({
 	locales: ['en'],
 	extension: '.json',
 	// Add more languages to the list of locales when the files are created.
@@ -28,7 +30,6 @@ var i18n = new (require('i18n-2'))({
 });
 // At some point we need to toggle this setting based on some user input.
 i18n.setLocale('en');
-
 
 module.exports = {
 
@@ -47,9 +48,9 @@ module.exports = {
 		if (numChars == null) {
 			numChars = 3;
 		}
-		var sizes = ['B', 'K', 'M', 'G', 'T'];
+		let sizes = ['B', 'K', 'M', 'G', 'T'];
 		if (bytes === 0) return '0B';
-		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
+		let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
 		return (bytes / Math.pow(1024, i)).toPrecision(numChars) + sizes[i];
 	},
 
@@ -102,8 +103,8 @@ module.exports = {
 
 				// Handle an unexpected response.
 				dialog.addChoice(/.*/i, (msg) => {
-					var choice = null;
-					var input = msg.match[0].split(' ');
+					let choice = null;
+					let input = msg.match[0].split(' ');
 					// Check if the user addressed the bot.
 					if (msg.match[0] && msg.match[0].indexOf(robot.name) !== -1) {
 						// The robot was addressed.  Get the next token.
@@ -216,6 +217,36 @@ module.exports = {
 		}
 
 		return new RegExp(regex);
+	},
+
+	/**
+	 * Strips all instances of the bot name from the given statement.
+	 */
+	stripBotName: function(botName, text) {
+		let nameToken = new RegExp(`@?${botName}:?`, 'gi');
+		return text.replace(nameToken, ' ').trim();
+	},
+
+	/**
+	 * Checks to see if the bot has been addressed in a message.
+	 */
+	checkBotAddressedInMessage: function(botName, text, robot) {
+		let lookBehindCheck = false;
+		let lookAheadCheck = false;
+
+		let modifiedBotName = botName;
+		if (this.isSlack(robot)) {
+			modifiedBotName = `@${botName}`;
+		}
+		let reversedBotName = esrever.reverse(modifiedBotName);
+
+		let lookAheadRegExp = new RegExp(`(${modifiedBotName})(?\!\\w)`);
+		let lookBehindRegExp = new RegExp(`(${reversedBotName})(?\!\\w)`);
+
+		lookAheadCheck = text.match(lookAheadRegExp) !== null;
+		lookBehindCheck = esrever.reverse(text).match(lookBehindRegExp) !== null;
+
+		return lookBehindCheck && lookAheadCheck;
 	},
 
 	/*

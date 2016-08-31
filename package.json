@@ -15,7 +15,8 @@
   "author": "ibm-cloud-solutions",
   "license": "Apache-2.0",
   "dependencies": {
-    "i18n-2": "^0.6.3"
+    "i18n-2": "^0.6.3",
+    "esrever": "^0.2.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
