@@ -1,6 +1,6 @@
 {
   "name": "hubot-ibmcloud-utils",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Common consistency utilities used across the IBM cloud family of hubot scripts",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "author": "ibm-cloud-solutions",
   "license": "Apache-2.0",
   "peerDependencies": {
-    "i18n-2": "^0.6.3"	  
+    "i18n-2": "^0.6.3"
   },
   "dependencies": {
     "esrever": "^0.2.0"
