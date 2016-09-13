@@ -31,5 +31,12 @@
   "files": [
     "src",
     "index.js"
+  ],
+  "keywords": [
+    "hubot",
+    "hubot-scripts",
+    "ibm",
+    "ibm cloud",
+    "cloud"
   ]
 }
