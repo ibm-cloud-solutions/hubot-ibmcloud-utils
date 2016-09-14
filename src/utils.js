@@ -75,6 +75,7 @@ module.exports = {
 	// -------------------------------------------------------
 	getExpectedResponse: function(res, robot, switchBoard, prompt, regex) {
 		let dialog = switchBoard.startDialog(res);
+		let that = this;
 		return new Promise((resolve, reject) => {
 			function getResponse() {
 				// Present the user with a prompt for input.
@@ -82,41 +83,24 @@ module.exports = {
 
 				// Control the response when the timeout expires.
 				dialog.dialogTimeout = function(msg) {
+					/* istanbul ignore next */
 					res.reply(i18n.__('conversation.timed.out'));
 				};
 
 				// Handle the expected response.
 				dialog.addChoice(regex, (msg) => {
-					// Must strip out potential leading bot name, if/when addressed.
-					// This need only apply to msg[1].
-					if (msg.match[1] && msg.match[1].indexOf(robot.name) !== -1) {
-						// The robot was addressed.  Get the next token.
-						msg.match[1] = msg.match[1].substring(msg.match[1].indexOf(' ') + 1);
-					}
-
 					// force dialog removal
 					dialog.resetChoices();
 					dialog.emit('timeout');
-
 					resolve(msg);
 				});
 
 				// Handle an unexpected response.
 				dialog.addChoice(/.*/i, (msg) => {
-					let choice = null;
-					let input = msg.match[0].split(' ');
-					// Check if the user addressed the bot.
-					if (msg.match[0] && msg.match[0].indexOf(robot.name) !== -1) {
-						// The robot was addressed.  Get the next token.
-						choice = input[1];
-					}
-					else {
-						// The robot was not addressed.  Get the first token.
-						choice = input[0];
-					}
+					let response = that.stripBotName(robot.name, msg.match[0]);
 
 					// Allow the user to leave the dialog.
-					if (choice === 'exit') {
+					if (response === 'exit') {
 						// force dialog removal
 						dialog.resetChoices();
 						dialog.emit('timeout');
@@ -144,6 +128,7 @@ module.exports = {
 				res.reply(prompt);
 				// Control the response when the timeout expires.
 				dialog.dialogTimeout = function(msg) {
+					/* istanbul ignore next */
 					res.reply(i18n.__('conversation.timed.out'));
 				};
 				// Handle a confirmation.
