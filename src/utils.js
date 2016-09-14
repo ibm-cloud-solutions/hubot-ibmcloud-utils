@@ -83,6 +83,7 @@ module.exports = {
 
 				// Control the response when the timeout expires.
 				dialog.dialogTimeout = function(msg) {
+					/* istanbul ignore next */
 					res.reply(i18n.__('conversation.timed.out'));
 				};
 
@@ -127,6 +128,7 @@ module.exports = {
 				res.reply(prompt);
 				// Control the response when the timeout expires.
 				dialog.dialogTimeout = function(msg) {
+					/* istanbul ignore next */
 					res.reply(i18n.__('conversation.timed.out'));
 				};
 				// Handle a confirmation.
