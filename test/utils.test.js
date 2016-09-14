@@ -79,7 +79,11 @@ describe('Test utility functions', function() {
 					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'hubot Y';
-							func(message);
+							let match = message.match(regex);
+							// only test expected response
+							if (String(regex) !== '/.*/i') {
+								func({match: match});
+							}
 						},
 						resetChoices: function(){},
 						emit: function(){}
@@ -88,7 +92,7 @@ describe('Test utility functions', function() {
 				}
 			};
 			let prompt = {};
-			let regex = /Y*/i;
+			let regex = /(Y)/i;
 
 			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
 				done();
@@ -96,6 +100,7 @@ describe('Test utility functions', function() {
 		});
 
 		it('test expected unexpected response', function(done) {
+			let count = 0;
 			let res = {
 				reply: function(msg) {}
 			};
@@ -107,7 +112,17 @@ describe('Test utility functions', function() {
 					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'hubot blah';
-							func(message);
+							let match = message.match(regex);
+							if (match === null) {
+								return;
+							}
+							// unexpected response will cause the addChoice
+							// function to be called in an infinite loop
+							if (++count > 1) {
+								done();
+								return;
+							}
+							func({match: match});
 						},
 						resetChoices: function(){},
 						emit: function(){}
@@ -116,11 +131,9 @@ describe('Test utility functions', function() {
 				}
 			};
 			let prompt = {};
-			let regex = /Y*/i;
+			let regex = /(Y)/i;
 
-			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
-				done();
-			});
+			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex);
 		});
 
 		it('test expected exit response', function(done) {
@@ -135,7 +148,11 @@ describe('Test utility functions', function() {
 					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'exit';
-							func(message);
+							let match = message.match(regex);
+							if (match === null) {
+								return;
+							}
+							func({match: match});
 						},
 						resetChoices: function(){},
 						emit: function(){}
@@ -144,9 +161,11 @@ describe('Test utility functions', function() {
 				}
 			};
 			let prompt = {};
-			let regex = /Y*/i;
+			let regex = /(Y)/i;
 
-			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex).then(() => {
+			// catch rejected promise from 'exit' flow
+			utils.getExpectedResponse(res, robot, switchBoard, prompt, regex)
+			.catch((err) => {
 				done();
 			});
 		});
@@ -163,7 +182,11 @@ describe('Test utility functions', function() {
 					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'hubot yes';
-							func(message);
+							let match = message.match(regex);
+							if (String(regex) === '/.*/i' || match === null) {
+								return;
+							}
+							func({match: match});
 						},
 						resetChoices: function(){},
 						emit: function(){}
@@ -178,7 +201,6 @@ describe('Test utility functions', function() {
 			});
 		});
 
-
 		it('test confirmed response `no`', function(done) {
 			let res = {
 				reply: function(msg) {
@@ -190,7 +212,11 @@ describe('Test utility functions', function() {
 					let dialog = {
 						addChoice: function(regex, func) {
 							let message = 'hubot no';
-							func(message);
+							let match = message.match(regex);
+							if (String(regex) === '/.*/i' || match === null) {
+								return;
+							}
+							func({match: match});
 						},
 						resetChoices: function(){},
 						emit: function(){}
@@ -200,9 +226,43 @@ describe('Test utility functions', function() {
 			};
 			let prompt = 'Test question (Yes or No)';
 			let negativeResponse = 'no';
-			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse).then(() => {
+			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse)
+			.catch((err) => {
 				done();
 			});
+		});
+
+		it('test confirmed response `unexpected response`', function(done) {
+			let count = 0;
+			let res = {
+				reply: function(msg) {
+					return 'blah';
+				}
+			};
+			let switchBoard = {
+				startDialog: function(res) {
+					let dialog = {
+						addChoice: function(regex, func) {
+							let message = 'hubot blah';
+							let match = message.match(regex);
+							if (match === null) {
+								return;
+							}
+							if (++count > 1) {
+								done();
+								return;
+							}
+							func({match: match});
+						},
+						resetChoices: function(){},
+						emit: function(){}
+					};
+					return dialog;
+				}
+			};
+			let prompt = 'Test question (Yes or No)';
+			let negativeResponse = 'no';
+			utils.getConfirmedResponse(res, switchBoard, prompt, negativeResponse);
 		});
 
 		it('test generated regex for numbered list of 7', function() {
