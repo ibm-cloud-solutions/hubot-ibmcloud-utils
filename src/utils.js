@@ -79,12 +79,13 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			function getResponse() {
 				// Present the user with a prompt for input.
-				res.reply(prompt);
+				robot.emit('ibmcloud.formatter', { response: res, message: prompt});
+
 
 				// Control the response when the timeout expires.
 				dialog.dialogTimeout = function(msg) {
 					/* istanbul ignore next */
-					res.reply(i18n.__('conversation.timed.out'));
+					robot.emit('ibmcloud.formatter', { response: res, message: i18n.__('conversation.timed.out')});
 				};
 
 				// Handle the expected response.
@@ -107,7 +108,7 @@ module.exports = {
 						reject();
 					}
 					else {
-						res.reply(i18n.__('conversation.try.again.or.exit'));
+						robot.emit('ibmcloud.formatter', { response: res, message: i18n.__('conversation.try.again.or.exit')});
 						getResponse();
 					}
 				});
@@ -119,17 +120,18 @@ module.exports = {
 	// -------------------------------------------------------
 	// Recurse until the expected match for yes/no is made.
 	// -------------------------------------------------------
-	getConfirmedResponse: function(res, switchBoard, prompt, negativeResponse) {
+	getConfirmedResponse: function(res, robot, switchBoard, prompt, negativeResponse) {
 		let that = this;
 		let dialog = switchBoard.startDialog(res);
 		return new Promise((resolve, reject) => {
 			function getResponse() {
 				// Present the user with a prompt for input.
-				res.reply(prompt);
+				robot.emit('ibmcloud.formatter', { response: res, message: prompt});
+
 				// Control the response when the timeout expires.
 				dialog.dialogTimeout = function(msg) {
 					/* istanbul ignore next */
-					res.reply(i18n.__('conversation.timed.out'));
+					robot.emit('ibmcloud.formatter', { response: res, message: i18n.__('conversation.timed.out')});
 				};
 				// Handle a confirmation.
 				dialog.addChoice(that.CONFIRM, (msg) => {
@@ -140,7 +142,7 @@ module.exports = {
 				});
 				// Handle a rejection.
 				dialog.addChoice(that.DENY, (msg) => {
-					res.reply(negativeResponse);
+					robot.emit('ibmcloud.formatter', { response: res, message: negativeResponse});
 					// force dialog removal
 					dialog.resetChoices();
 					dialog.emit('timeout');
@@ -148,7 +150,7 @@ module.exports = {
 				});
 				// Handle an unexpected response.
 				dialog.addChoice(/.*/i, (msg) => {
-					res.reply(i18n.__('conversation.try.again.yes.no'));
+					robot.emit('ibmcloud.formatter', { response: res, message: i18n.__('conversation.try.again.yes.no')});
 					getResponse();
 				});
 			};
