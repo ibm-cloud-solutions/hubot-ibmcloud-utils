@@ -90,6 +90,8 @@ module.exports = {
 
 				// Handle the expected response.
 				dialog.addChoice(regex, (msg) => {
+					msg.match[1] = that.stripBotName(robot.name, msg.match[1]);
+
 					// force dialog removal
 					dialog.resetChoices();
 					dialog.emit('timeout');
