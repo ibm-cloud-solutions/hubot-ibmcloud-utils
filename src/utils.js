@@ -90,7 +90,12 @@ module.exports = {
 
 				// Handle the expected response.
 				dialog.addChoice(regex, (msg) => {
-					msg.match[1] = that.stripBotName(robot.name, msg.match[1]);
+					if (msg.match[0]) {
+						msg.match[0] = that.stripBotName(robot.name, msg.match[0]);
+					}
+					if (msg.match[1]) {
+						msg.match[1] = that.stripBotName(robot.name, msg.match[1]);
+					}
 
 					// force dialog removal
 					dialog.resetChoices();
